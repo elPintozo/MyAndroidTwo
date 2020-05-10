@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayAdapter<Item> adapter =  new ArrayAdapter<>(this, R.layout.item_adapter, R.id.txt_name, Item.getItems());
+        AdapterItem adapter = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
         ListView listView = (ListView) findViewById(R.id.list_items);
         listView.setAdapter(adapter);
     }
