@@ -62,28 +62,41 @@ public class AdapterItem extends ArrayAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         //Aca se maneja la vista
 
-        if (context!=null){
-            //se debe inflar(crear/OnCreate) la vista
-            view =  context.getLayoutInflater().inflate(resource, null);
+        ViewHolder holder = new ViewHolder();
+        if(view==null) {
+            if (context != null) {
+                //se debe inflar(crear/OnCreate) la vista
+                view = context.getLayoutInflater().inflate(resource, null);
 
-            //creo los componentes que mostrarán la información
-            TextView txt_id = (TextView)view.findViewById(R.id.txt_id);
-            TextView txt_name = (TextView)view.findViewById(R.id.txt_name);
-            TextView txt_stock = (TextView)view.findViewById(R.id.txt_stock);
-
-            //obtengo el item para obtener su información
-            Item item = items.get(position);
-            txt_id.setText(String.valueOf(item.getId()));
-            txt_name.setText(item.getName());
-
-            if(item.getStock()){
-                txt_stock.setText("Disponible");
-                view.setBackgroundColor(Color.GREEN);
-            }else{
-                txt_stock.setText("No disponible");
-                view.setBackgroundColor(Color.YELLOW);
+                //creo los componentes que mostrarán la información
+                holder.txt_id = (TextView) view.findViewById(R.id.txt_id);
+                holder.txt_name = (TextView) view.findViewById(R.id.txt_name);
+                holder.txt_stock = (TextView) view.findViewById(R.id.txt_stock);
+                view.setTag(holder);
             }
+        }else{
+            holder = (ViewHolder)view.getTag();
         }
+
+        //obtengo el item para obtener su información
+        Item item = items.get(position);
+        holder.txt_id.setText(String.valueOf(item.getId()));
+        holder.txt_name.setText(item.getName());
+
+        if (item.getStock()) {
+            holder.txt_stock.setText("Disponible");
+            view.setBackgroundColor(Color.GREEN);
+        } else {
+            holder.txt_stock.setText("No disponible");
+            view.setBackgroundColor(Color.YELLOW);
+        }
+
         return view;
+    }
+
+    static class ViewHolder{
+        private TextView txt_id;
+        private TextView txt_name;
+        private TextView txt_stock;
     }
 }
