@@ -12,11 +12,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.example_framelayout);
 
-        AdapterItem adapter = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
-        ListView listView = (ListView) findViewById(R.id.list_items);
-        listView.setAdapter(adapter);
+        //AdapterItem adapter = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
+        //ListView listView = (ListView) findViewById(R.id.list_items);
+        //listView.setAdapter(adapter);
     }
 
     /**
