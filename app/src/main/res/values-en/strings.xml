@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="titulo">Item List</string>
+    <string name="go_to_activity_two">Go to activity 2</string>
 </resources>
