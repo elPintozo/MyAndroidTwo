@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                intent.putExtra("mi_int", 99);
+                intent.putExtra("mi_string", "ricardo");
+                intent.putExtra("mi_booleano", true);
                 startActivity(intent);
             }
         });
