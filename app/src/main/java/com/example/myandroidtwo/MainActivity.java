@@ -29,11 +29,15 @@ public class MainActivity extends AppCompatActivity {
         btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                intent.putExtra("mi_int", 99);
-                intent.putExtra("mi_string", "ricardo");
-                intent.putExtra("mi_booleano", true);
-                startActivity(intent);
+                Intent intent = new Intent();
+                // indicamos que queremos hacer con aplicaciones externas
+                intent.setAction(Intent.ACTION_SEND);
+                // le indicamos a la otra aplicación que le enviaremos texto
+                intent.putExtra(Intent.EXTRA_TEXT, "Este mensaje fue enviado desde otra app");
+                // se especifica que dato enviaremos
+                intent.setType("text/plain");
+                // se inicia la instancia de conversación con otra aplicacion
+                startActivity(Intent.createChooser(intent,"Enviar el texto a"));
             }
         });
 
