@@ -1,9 +1,12 @@
 package com.example.myandroidtwo;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -40,7 +43,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent,"Enviar el texto a"));
             }
         });
+    }
 
+    /**
+     * Función que me ayuda a mantener al instancia cuando se quiera cambiar
+     * la orientación del movil para hacer uso en vertical, a veces suelen haber
+     * comportamientos raros(android reinicia la instancia), entonces se
+     * controla para evitar eso se usa esta función.
+     * -Se ejecuta antes de un onstop
+     */
+
+    /**
+     *  Función que recibe los datos tras haberse ejecutado una rotación de la
+     *  aplicación, los datos son provenientes de  onSaveInstanceState
+     * @param savedInstanceState
+     */
+    @Override
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Toast.makeText(getApplicationContext(), "Nombre:"+savedInstanceState.getString("name", "error"), Toast.LENGTH_LONG).show();
+        sendLog(1, savedInstanceState.getString("name", "error"), "onRestoreInstanceState");
+    }
+
+    /**
+     * Función que nos ayuda a respaldar los datos en caso que se cambie la orientación
+     * de la aplicación. (Funcion que envia los datos antes de la rotación)
+     * Se ejecuta antes de la función onStop
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("name", "Ricardo");
     }
 
     /**
