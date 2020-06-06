@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myandroidtwo">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.myandroidtwo">
+
+    <!-- Este permiso es para poder usar la memoria externa / se indica hasta que versión se requiere este permiso-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <!-- permiso para usar la camara -->
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"

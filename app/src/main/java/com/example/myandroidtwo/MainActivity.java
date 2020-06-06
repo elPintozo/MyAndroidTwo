@@ -3,8 +3,12 @@ package com.example.myandroidtwo;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -23,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.example_activity);
 
-        Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_SHORT).show();
         //AdapterItem adapter = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
         //ListView listView = (ListView) findViewById(R.id.list_items);
         //listView.setAdapter(adapter);
@@ -43,6 +47,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent,"Enviar el texto a"));
             }
         });
+
+        //Se valida que se tiene permiso para hacer uso de algo en particular
+        //Si se tiene el permiso se retorna 0, sino -1
+        //una forma de usar mejor el comparador es usando PackageManager.PERMISSION_GRANTED (es igual a == 0)/ PERMISSION_DENIED (es igual a == -1)
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            //se notifica que si hay permiso para hacer uso de algun componente
+            Toast.makeText(getApplicationContext(), "Permiso aceptado 1.", Toast.LENGTH_LONG).show();
+        }else {
+            //se vuelve a pedir el permiso para hacer uso de algun componente
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+
+            //se notifica que no hay permiso para hacer uso de algun componente
+            Toast.makeText(getApplicationContext(), "Permiso denegado 1.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 1:
+                if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    //se notifica que si hay permiso para hacer uso de algun componente
+                    Toast.makeText(getApplicationContext(), "Permiso aceptado 2.", Toast.LENGTH_LONG).show();
+                }else {
+                    //se vuelve a pedir el permiso para hacer uso de algun componente
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+
+                    //se notifica que no hay permiso para hacer uso de algun componente
+                    Toast.makeText(getApplicationContext(), "Permiso denegado 2.", Toast.LENGTH_LONG).show();
+                }
+        }
     }
 
     /**
