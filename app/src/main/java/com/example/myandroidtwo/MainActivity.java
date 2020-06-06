@@ -18,49 +18,64 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btNext;
+
+    private Button btnAceptar;
+    private Button btnCancelar;
+    private Button btnGuardar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_activity);
+        setContentView(R.layout.example_button);
 
         Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_SHORT).show();
+        sendLog(1, "onCreate", "onCreate");
+
+        btnAceptar = (Button)findViewById(R.id.btnAceptar);
+        btnCancelar = (Button)findViewById(R.id.btnCancelar);
+        btnGuardar = (Button)findViewById(R.id.btnGuardar);
+
+        btnAceptar.setOnClickListener(this);
+        btnCancelar.setOnClickListener(this);
+        btnGuardar.setOnClickListener(this);
+
         //AdapterItem adapter = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
         //ListView listView = (ListView) findViewById(R.id.list_items);
         //listView.setAdapter(adapter);
 
-        btNext = (Button)findViewById(R.id.btn_next_activity_2);
-        btNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                // indicamos que queremos hacer con aplicaciones externas
-                intent.setAction(Intent.ACTION_SEND);
-                // le indicamos a la otra aplicación que le enviaremos texto
-                intent.putExtra(Intent.EXTRA_TEXT, "Este mensaje fue enviado desde otra app");
-                // se especifica que dato enviaremos
-                intent.setType("text/plain");
-                // se inicia la instancia de conversación con otra aplicacion
-                startActivity(Intent.createChooser(intent,"Enviar el texto a"));
-            }
-        });
+//        btNext = (Button)findViewById(R.id.btn_next_activity_2);
+//        btNext.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                // indicamos que queremos hacer con aplicaciones externas
+//                intent.setAction(Intent.ACTION_SEND);
+//                // le indicamos a la otra aplicación que le enviaremos texto
+//                intent.putExtra(Intent.EXTRA_TEXT, "Este mensaje fue enviado desde otra app");
+//                // se especifica que dato enviaremos
+//                intent.setType("text/plain");
+//                // se inicia la instancia de conversación con otra aplicacion
+//                startActivity(Intent.createChooser(intent,"Enviar el texto a"));
+//            }
+//        });
 
-        //Se valida que se tiene permiso para hacer uso de algo en particular
-        //Si se tiene el permiso se retorna 0, sino -1
-        //una forma de usar mejor el comparador es usando PackageManager.PERMISSION_GRANTED (es igual a == 0)/ PERMISSION_DENIED (es igual a == -1)
-        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-            //se notifica que si hay permiso para hacer uso de algun componente
-            Toast.makeText(getApplicationContext(), "Permiso aceptado 1.", Toast.LENGTH_LONG).show();
-        }else {
-            //se vuelve a pedir el permiso para hacer uso de algun componente
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
-
-            //se notifica que no hay permiso para hacer uso de algun componente
-            Toast.makeText(getApplicationContext(), "Permiso denegado 1.", Toast.LENGTH_LONG).show();
-        }
+//        //Se valida que se tiene permiso para hacer uso de algo en particular
+//        //Si se tiene el permiso se retorna 0, sino -1
+//        //una forma de usar mejor el comparador es usando PackageManager.PERMISSION_GRANTED (es igual a == 0)/ PERMISSION_DENIED (es igual a == -1)
+//        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+//            //se notifica que si hay permiso para hacer uso de algun componente
+//            Toast.makeText(getApplicationContext(), "Permiso aceptado 1.", Toast.LENGTH_LONG).show();
+//        }else {
+//            //se vuelve a pedir el permiso para hacer uso de algun componente
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+//
+//            //se notifica que no hay permiso para hacer uso de algun componente
+//            Toast.makeText(getApplicationContext(), "Permiso denegado 1.", Toast.LENGTH_LONG).show();
+//        }
     }
 
     @Override
@@ -162,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "onResume", Toast.LENGTH_SHORT).show();
+        sendLog(1, "onResume", "onResume");
     }
 
     /**
@@ -201,5 +217,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Toast.makeText(getApplicationContext(), "onRestart", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnAceptar:
+                Toast.makeText(MainActivity.this, "Botón Aceptar", Toast.LENGTH_SHORT).show();
+                sendLog(1, "Botón Aceptar", "Button");
+                break;
+            case R.id.btnCancelar:
+                Toast.makeText(getApplicationContext(), "Botón Cancelar", Toast.LENGTH_SHORT).show();
+                sendLog(1, "Botón Cancelar", "Button");
+                break;
+            case R.id.btnGuardar:
+                Toast.makeText(getApplicationContext(), "Botón Guardar", Toast.LENGTH_SHORT).show();
+                sendLog(1, "Botón Guardar", "Button");
+                break;
+        }
     }
 }
