@@ -15,7 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -26,22 +29,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnCancelar;
     private Button btnGuardar;
 
+    private CheckBox my_checkBox;
+    private RadioButton my_radioButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_button);
+        setContentView(R.layout.example_checkbox_radiobutton);
 
-        Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_SHORT).show();
-        sendLog(1, "onCreate", "onCreate");
+        my_checkBox = (CheckBox) findViewById(R.id.my_checkBox);
+        my_radioButton = (RadioButton)findViewById(R.id.my_radioButton);
 
-        btnAceptar = (Button)findViewById(R.id.btnAceptar);
-        btnCancelar = (Button)findViewById(R.id.btnCancelar);
-        btnGuardar = (Button)findViewById(R.id.btnGuardar);
+        my_checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(getApplicationContext(), "CheckBox Seleccionado", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "CheckBox No Seleccionado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        btnAceptar.setOnClickListener(this);
-        btnCancelar.setOnClickListener(this);
-        btnGuardar.setOnClickListener(this);
+        my_radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(getApplicationContext(), "RadioButton Seleccionado", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "RadioButton No Seleccionado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+//        Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_SHORT).show();
+//        sendLog(1, "onCreate", "onCreate");
+
+//        btnAceptar = (Button)findViewById(R.id.btnAceptar);
+//        btnCancelar = (Button)findViewById(R.id.btnCancelar);
+//        btnGuardar = (Button)findViewById(R.id.btnGuardar);
+//
+//        btnAceptar.setOnClickListener(this);
+//        btnCancelar.setOnClickListener(this);
+//        btnGuardar.setOnClickListener(this);
 
         //AdapterItem adapter = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
         //ListView listView = (ListView) findViewById(R.id.list_items);
