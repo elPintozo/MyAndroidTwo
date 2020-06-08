@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class AdapterItem extends ArrayAdapter {
     @Override
     /**
      * Función que se infla para poder mostrar cada uno de los items en la lista
-     *
+     *  acá se verá reflejado la opción seleccionada del spinner
      * position : indica la posicion del item actual
      * view : es la vista del item
      * viewGroup : es la vista del padre (ListVier)
@@ -92,6 +93,47 @@ public class AdapterItem extends ArrayAdapter {
         }
 
         return view;
+    }
+
+    /**
+     * Acá se realizan los cambios que se verán reflejados en las opciones seleccionables del spinner
+     * @param position (int) :
+     * @param convertView (View):
+     * @param parent (ViewGroup):
+     * @return convertView (View):
+     */
+    @Override
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ViewHolder holder = new ViewHolder();
+        if(convertView==null) {
+            if (context != null) {
+                //se debe inflar(crear/OnCreate) la vista
+                convertView = context.getLayoutInflater().inflate(resource, null);
+
+                //creo los componentes que mostrarán la información
+                holder.txt_id = (TextView) convertView.findViewById(R.id.txt_id);
+                holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
+                holder.txt_stock = (TextView) convertView.findViewById(R.id.txt_stock);
+                convertView.setTag(holder);
+            }
+        }else{
+            holder = (ViewHolder)convertView.getTag();
+        }
+
+        //obtengo el item para obtener su información
+        Item item = items.get(position);
+        holder.txt_id.setText(String.valueOf(item.getId()));
+        holder.txt_name.setText(item.getName());
+
+        if (item.getStock()) {
+            holder.txt_stock.setText("Disponible");
+            convertView.setBackgroundColor(Color.GREEN);
+        } else {
+            holder.txt_stock.setText("No disponible");
+            convertView.setBackgroundColor(Color.YELLOW);
+        }
+
+        return convertView;
     }
 
     static class ViewHolder{

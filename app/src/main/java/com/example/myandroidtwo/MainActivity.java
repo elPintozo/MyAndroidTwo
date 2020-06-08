@@ -19,49 +19,54 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btNext;
-
     private Button btnAceptar;
     private Button btnCancelar;
     private Button btnGuardar;
-
     private CheckBox my_checkBox;
     private RadioButton my_radioButton;
+    private Spinner my_spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_checkbox_radiobutton);
+        setContentView(R.layout.example_spinner);
 
-        my_checkBox = (CheckBox) findViewById(R.id.my_checkBox);
-        my_radioButton = (RadioButton)findViewById(R.id.my_radioButton);
+        //ArrayAdapter<Item> itemArrayAdapter = new ArrayAdapter<Item>(getApplicationContext(), R.layout.item_adapter, R.id.txt_id, Item.getItems());
+        AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
+        my_spinner = (Spinner)findViewById(R.id.my_spinner);
+        my_spinner.setAdapter(adapterItem);
 
-        my_checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Toast.makeText(getApplicationContext(), "CheckBox Seleccionado", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "CheckBox No Seleccionado", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        my_radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Toast.makeText(getApplicationContext(), "RadioButton Seleccionado", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "RadioButton No Seleccionado", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        my_checkBox = (CheckBox) findViewById(R.id.my_checkBox);
+//        my_radioButton = (RadioButton)findViewById(R.id.my_radioButton);
+//
+//        my_checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    Toast.makeText(getApplicationContext(), "CheckBox Seleccionado", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    Toast.makeText(getApplicationContext(), "CheckBox No Seleccionado", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//
+//        my_radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    Toast.makeText(getApplicationContext(), "RadioButton Seleccionado", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    Toast.makeText(getApplicationContext(), "RadioButton No Seleccionado", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
 //        Toast.makeText(getApplicationContext(), "onCreate", Toast.LENGTH_SHORT).show();
 //        sendLog(1, "onCreate", "onCreate");
