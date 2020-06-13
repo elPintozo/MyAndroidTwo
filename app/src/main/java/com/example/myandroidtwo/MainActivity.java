@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,6 +26,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btNext;
+    private Button btnAdd;
+    private ProgressBar my_progressBar;
+    private int my_progress;
     private Button btnAceptar;
     private Button btnCancelar;
     private Button btnGuardar;
@@ -36,12 +40,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_spinner);
+        setContentView(R.layout.example_progressbar);
 
-        //ArrayAdapter<Item> itemArrayAdapter = new ArrayAdapter<Item>(getApplicationContext(), R.layout.item_adapter, R.id.txt_id, Item.getItems());
-        AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
-        my_spinner = (Spinner)findViewById(R.id.my_spinner);
-        my_spinner.setAdapter(adapterItem);
+        btnAdd = (Button)findViewById(R.id.btnAdd);
+        my_progressBar = (ProgressBar)findViewById(R.id.progressBar_2);
+        btnAdd.setOnClickListener(this);
+
+//        //ArrayAdapter<Item> itemArrayAdapter = new ArrayAdapter<Item>(getApplicationContext(), R.layout.item_adapter, R.id.txt_id, Item.getItems());
+//        AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
+//        my_spinner = (Spinner)findViewById(R.id.my_spinner);
+//        my_spinner.setAdapter(adapterItem);
 
 //        my_checkBox = (CheckBox) findViewById(R.id.my_checkBox);
 //        my_radioButton = (RadioButton)findViewById(R.id.my_radioButton);
@@ -269,6 +277,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnGuardar:
                 Toast.makeText(getApplicationContext(), "Botón Guardar", Toast.LENGTH_SHORT).show();
                 sendLog(1, "Botón Guardar", "Button");
+                break;
+            case R.id.btnAdd:
+                my_progress = my_progressBar.getProgress();
+                my_progress = my_progress +10;
+                if(my_progress<100){
+                    my_progressBar.setProgress(my_progress);
+                    btnAdd.setText("Add 10%");
+                }else{
+                    btnAdd.setText("Felicidades "+my_progress+"%");
+                    my_progressBar.setProgress(0);
+                }
                 break;
         }
     }
