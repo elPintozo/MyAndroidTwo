@@ -21,8 +21,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
 import android.widget.RadioButton;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -41,18 +43,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SeekBar my_seekBar_2;
     private QuickContactBadge quickContactBadge_phone;
     private QuickContactBadge quickContactBadge_email;
+    private RatingBar ratingBar_1;
+    private RatingBar ratingBar_2;
+    private TextView textView_rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_quick_contact_badge);
+        setContentView(R.layout.example_ratingbar);
 
-        quickContactBadge_email = (QuickContactBadge)findViewById(R.id.quick_email);
-        quickContactBadge_phone = (QuickContactBadge)findViewById(R.id.quick_phone);
-
-        quickContactBadge_email.assignContactFromEmail("ricardo.sr.lepe@gmail.com", true);
-        quickContactBadge_phone.assignContactFromPhone("981275086",true);
+        ratingBar_1 = (RatingBar)findViewById(R.id.ratingBar);
+        ratingBar_2 = (RatingBar)findViewById(R.id.ratingBar2);
+        textView_rating = (TextView)findViewById(R.id.text_rating);
+        
+        ratingBar_1.setRating((float) 2.0);
+        textView_rating.setText(ratingBar_1.getRating()+"");
+        ratingBar_1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            /**
+             * Función que notifica cambios del rating realizado por el usuario
+             *ratingBar : view del componente
+             *rating : valor del ranking otorgado
+             *fromUser : variable encargada de noticar si hay cambios
+             */
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                textView_rating.setText(rating+"");
+            }
+        });
+//        quickContactBadge_email = (QuickContactBadge)findViewById(R.id.quick_email);
+//        quickContactBadge_phone = (QuickContactBadge)findViewById(R.id.quick_phone);
+//
+//        quickContactBadge_email.assignContactFromEmail("ricardo.sr.lepe@gmail.com", true);
+//        quickContactBadge_phone.assignContactFromPhone("981275086",true);
 //        my_seekBar_1 = (SeekBar) findViewById(R.id.seekBar);
 //        my_seekBar_2 = (SeekBar) findViewById(R.id.seekBar2);
 //
