@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,16 +36,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CheckBox my_checkBox;
     private RadioButton my_radioButton;
     private Spinner my_spinner;
+    private SeekBar my_seekBar_1;
+    private SeekBar my_seekBar_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_progressbar);
+        setContentView(R.layout.example_seekbar);
 
-        btnAdd = (Button)findViewById(R.id.btnAdd);
-        my_progressBar = (ProgressBar)findViewById(R.id.progressBar_2);
-        btnAdd.setOnClickListener(this);
+        my_seekBar_1 = (SeekBar) findViewById(R.id.seekBar);
+        my_seekBar_2 = (SeekBar) findViewById(R.id.seekBar2);
+
+        my_seekBar_1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            /**
+             * Función que no notifica que el progreso de la barra a cambiado
+             * seekBar : el componente
+             * progress : el progreso actual
+             * fromUser : notifica de cambio de proceso
+             */
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            /**
+             * función que notifica que se esa haciendo una interacción táctil
+             * seekBar : el componente
+             */
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                sendLog(1, "Se está cambiando el valor del seekbar 1", "Seekbar 1");
+            }
+
+            @Override
+            /**
+             * función que notifica que se esa ha terminado una interacción táctil
+             * seekBar : el componente
+             */
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                sendLog(1, "Se termino de cambiar el  valor del seekbar 1", "Seekbar 1");
+            }
+        });
+
+        my_seekBar_2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            /**
+             * Función que no notifica que el progreso de la barra a cambiado
+             * seekBar : el componente
+             * progress : el progreso actual
+             * fromUser : notifica de cambio de proceso
+             */
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                sendLog(1, "Se está cambiando el valor del seekbar 2", "Seekbar 2");
+            }
+
+            @Override
+            /**
+             * función que notifica que se esa haciendo una interacción táctil
+             * seekBar : el componente
+             */
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                sendLog(1, "Se termino de cambiar el  valor del seekbar 2", "Seekbar 2");
+            }
+
+            @Override
+            /**
+             * función que notifica que se esa ha terminado una interacción táctil
+             * seekBar : el componente
+             */
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+//        btnAdd = (Button)findViewById(R.id.btnAdd);
+//        my_progressBar = (ProgressBar)findViewById(R.id.progressBar_2);
+//        btnAdd.setOnClickListener(this);
 
 //        //ArrayAdapter<Item> itemArrayAdapter = new ArrayAdapter<Item>(getApplicationContext(), R.layout.item_adapter, R.id.txt_id, Item.getItems());
 //        AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, Item.getItems());
