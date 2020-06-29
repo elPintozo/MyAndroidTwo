@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -49,38 +50,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textView_rating;
     private Switch switch_1;
     private Switch switch_2;
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_switch);
+        setContentView(R.layout.example_radiogroup);
 
-        switch_1 = (Switch)findViewById(R.id.switch1);
-        switch_2 = (Switch)findViewById(R.id.switch2);
-
-        switch_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    sendLog(1, "Switch 1 Checked","Switch");
-                }else{
-                    sendLog(1, "Switch 2 No Checked","Switch");
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.radio_opcion_1:
+                        sendLog(1,"Opción 1","RadioGroup");
+                        break;
+                    case R.id.radio_opcion_2:
+                        sendLog(1,"Opción 2","RadioGroup");
+                        break;
+                    case R.id.radio_opcion_3:
+                        sendLog(1,"Opción 3","RadioGroup");
+                        break;
+                    case R.id.radio_opcion_4:
+                        sendLog(1,"Opción 4","RadioGroup");
+                        break;
                 }
             }
         });
-
-        switch_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    sendLog(1, "Switch 2 Checked","Switch");
-                }else{
-                    sendLog(1, "Switch 2 No Checked","Switch");
-                }
-            }
-        });
-
+//        switch_1 = (Switch)findViewById(R.id.switch1);
+//        switch_2 = (Switch)findViewById(R.id.switch2);
+//
+//        switch_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    sendLog(1, "Switch 1 Checked","Switch");
+//                }else{
+//                    sendLog(1, "Switch 2 No Checked","Switch");
+//                }
+//            }
+//        });
+//
+//        switch_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    sendLog(1, "Switch 2 Checked","Switch");
+//                }else{
+//                    sendLog(1, "Switch 2 No Checked","Switch");
+//                }
+//            }
+//        });
 
 //        ratingBar_1 = (RatingBar)findViewById(R.id.ratingBar);
 //        ratingBar_2 = (RatingBar)findViewById(R.id.ratingBar2);
