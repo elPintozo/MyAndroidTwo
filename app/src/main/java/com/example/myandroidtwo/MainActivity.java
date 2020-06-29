@@ -24,6 +24,7 @@ import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,31 +47,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RatingBar ratingBar_1;
     private RatingBar ratingBar_2;
     private TextView textView_rating;
+    private Switch switch_1;
+    private Switch switch_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_ratingbar);
+        setContentView(R.layout.example_switch);
 
-        ratingBar_1 = (RatingBar)findViewById(R.id.ratingBar);
-        ratingBar_2 = (RatingBar)findViewById(R.id.ratingBar2);
-        textView_rating = (TextView)findViewById(R.id.text_rating);
-        
-        ratingBar_1.setRating((float) 2.0);
-        textView_rating.setText(ratingBar_1.getRating()+"");
-        ratingBar_1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        switch_1 = (Switch)findViewById(R.id.switch1);
+        switch_2 = (Switch)findViewById(R.id.switch2);
+
+        switch_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            /**
-             * Función que notifica cambios del rating realizado por el usuario
-             *ratingBar : view del componente
-             *rating : valor del ranking otorgado
-             *fromUser : variable encargada de noticar si hay cambios
-             */
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                textView_rating.setText(rating+"");
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    sendLog(1, "Switch 1 Checked","Switch");
+                }else{
+                    sendLog(1, "Switch 2 No Checked","Switch");
+                }
             }
         });
+
+        switch_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    sendLog(1, "Switch 2 Checked","Switch");
+                }else{
+                    sendLog(1, "Switch 2 No Checked","Switch");
+                }
+            }
+        });
+
+
+//        ratingBar_1 = (RatingBar)findViewById(R.id.ratingBar);
+//        ratingBar_2 = (RatingBar)findViewById(R.id.ratingBar2);
+//        textView_rating = (TextView)findViewById(R.id.text_rating);
+//
+//        ratingBar_1.setRating((float) 2.0);
+//        textView_rating.setText(ratingBar_1.getRating()+"");
+//        ratingBar_1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            /**
+//             * Función que notifica cambios del rating realizado por el usuario
+//             *ratingBar : view del componente
+//             *rating : valor del ranking otorgado
+//             *fromUser : variable encargada de noticar si hay cambios
+//             */
+//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                textView_rating.setText(rating+"");
+//            }
+//        });
 //        quickContactBadge_email = (QuickContactBadge)findViewById(R.id.quick_email);
 //        quickContactBadge_phone = (QuickContactBadge)findViewById(R.id.quick_phone);
 //
