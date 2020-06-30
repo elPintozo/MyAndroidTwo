@@ -56,28 +56,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_radiogroup);
+        setContentView(R.layout.example_scroll);
 
-        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.radio_opcion_1:
-                        sendLog(1,"Opción 1","RadioGroup");
-                        break;
-                    case R.id.radio_opcion_2:
-                        sendLog(1,"Opción 2","RadioGroup");
-                        break;
-                    case R.id.radio_opcion_3:
-                        sendLog(1,"Opción 3","RadioGroup");
-                        break;
-                    case R.id.radio_opcion_4:
-                        sendLog(1,"Opción 4","RadioGroup");
-                        break;
-                }
-            }
-        });
+//        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId){
+//                    case R.id.radio_opcion_1:
+//                        sendLog(1,"Opción 1","RadioGroup");
+//                        break;
+//                    case R.id.radio_opcion_2:
+//                        sendLog(1,"Opción 2","RadioGroup");
+//                        break;
+//                    case R.id.radio_opcion_3:
+//                        sendLog(1,"Opción 3","RadioGroup");
+//                        break;
+//                    case R.id.radio_opcion_4:
+//                        sendLog(1,"Opción 4","RadioGroup");
+//                        break;
+//                }
+//            }
+//        });
 //        switch_1 = (Switch)findViewById(R.id.switch1);
 //        switch_2 = (Switch)findViewById(R.id.switch2);
 //
