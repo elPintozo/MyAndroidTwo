@@ -9,11 +9,15 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,31 +65,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Item> my_list_item;
     private GridView gridView;
     private TabHost tabHost;
+    private WebView webView;
+    private ProgressBar progressBar_web;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_tabhost);
+        setContentView(R.layout.example_webview);
 
-        tabHost = (TabHost)findViewById(R.id.tabhost);
-        tabHost.setup();
+        webView =  (WebView)findViewById(R.id.webview);
+        progressBar_web = (ProgressBar) findViewById(R.id.progressBar_web);
 
-        //se crean las instancias del TabHost
-        newTab("tab1", R.id.tab1, "Tab N° 1", getIcon(R.drawable.icono_email));
-        newTab("tab2", R.id.tab2, "Tab N° 2", getIcon(R.drawable.icono_email));
-        newTab("tab3", R.id.tab3, "",getIcon(R.drawable.icono_email));
+        //Indico la página a cargar al inicio
+        //webView.loadUrl("https://www.google.cl");
 
-        //marco el tab por defecto
-        tabHost.setCurrentTab(1);
+        //*Si yo quiero cargar mi propio HTML* - debo comentar la función .loadUrl()
+        String my_HTML = "<html><body> <h1>Hola!</h1> <h2>Adiós!</h2> <h3>WebView</h3> </body></html>";
+        webView.loadData(my_HTML,  "text/html; charset=UTF-8",null);
+        webView.setBackgroundColor(Color.GREEN);
+        
+        //establezco algunas propiedades a partir de las que tiene el WebView
+        WebSettings webSettings = webView.getSettings();
+        //activo contenido en JS
+        webSettings.setJavaScriptEnabled(true);
+        //activo el uso de zoom en el texto
+        webSettings.setTextZoom(80);
 
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+        webView.setWebChromeClient(new WebChromeClient(){
             @Override
-            public void onTabChanged(String tabId) {
-                Toast.makeText(getApplicationContext(), "Identificador: " + tabId + " - Id: " + tabHost.getCurrentTab(), Toast.LENGTH_LONG).show();
-                sendLog(1,"Identificador: "+tabId + " - Id: " + tabHost.getCurrentTab(),"TabHost");
+            public void onProgressChanged(WebView view, int newProgress) {
+                //se le indica al progressbar donde debe ir cargando
+                progressBar_web.setProgress(newProgress);
+                //si la página esta cargada se hace invisible el progressbar
+                if(newProgress == 100){
+                    progressBar_web.setVisibility(View.GONE);
+                }
+                super.onProgressChanged(view, newProgress);
             }
         });
+
+//        tabHost = (TabHost)findViewById(R.id.tabhost);
+//        tabHost.setup();
+//
+//        //se crean las instancias del TabHost
+//        newTab("tab1", R.id.tab1, "Tab N° 1", getIcon(R.drawable.icono_email));
+//        newTab("tab2", R.id.tab2, "Tab N° 2", getIcon(R.drawable.icono_email));
+//        newTab("tab3", R.id.tab3, "",getIcon(R.drawable.icono_email));
+//
+//        //marco el tab por defecto
+//        tabHost.setCurrentTab(1);
+//
+//        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+//            @Override
+//            public void onTabChanged(String tabId) {
+//                Toast.makeText(getApplicationContext(), "Identificador: " + tabId + " - Id: " + tabHost.getCurrentTab(), Toast.LENGTH_LONG).show();
+//                sendLog(1,"Identificador: "+tabId + " - Id: " + tabHost.getCurrentTab(),"TabHost");
+//            }
+//        });
 //        gridView = (GridView)findViewById(R.id.gridview);
 //        my_list_item = Item.getItems();
 //        final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);

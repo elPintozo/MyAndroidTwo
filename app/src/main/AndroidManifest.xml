@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
     <!-- permiso para usar la camara -->
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- permiso para acceder a internet -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
