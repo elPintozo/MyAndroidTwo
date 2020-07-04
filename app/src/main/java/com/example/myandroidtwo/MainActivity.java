@@ -56,52 +56,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_switch);
+        setContentView(R.layout.example_radiogroup);
 
-//        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //Forma 1 de obtener el boton presionado
+                switch (checkedId){
+                    case R.id.radio_opcion_1:
+                        sendLog(1,"Forma 1: Opción 1","RadioGroup");
+                        break;
+                    case R.id.radio_opcion_2:
+                        sendLog(1,"Forma 1: Opción 2","RadioGroup");
+                        break;
+                    case R.id.radio_opcion_3:
+                        sendLog(1,"Forma 1: Opción 3","RadioGroup");
+                        break;
+                    case R.id.radio_opcion_4:
+                        sendLog(1,"Forma 1: O1pción 4","RadioGroup");
+                        break;
+                }
+
+                //forma 2 de obtener el radio seleccionado
+                RadioButton rb_seleccionado = (RadioButton)findViewById(checkedId);
+                sendLog(1, "Forma 2: "+(String) rb_seleccionado.getText(),"RadioGroup");
+            }
+        });
+//        switch_1 = (Switch)findViewById(R.id.switch1);
+//        switch_2 = (Switch)findViewById(R.id.switch2);
+//
+//        switch_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId){
-//                    case R.id.radio_opcion_1:
-//                        sendLog(1,"Opción 1","RadioGroup");
-//                        break;
-//                    case R.id.radio_opcion_2:
-//                        sendLog(1,"Opción 2","RadioGroup");
-//                        break;
-//                    case R.id.radio_opcion_3:
-//                        sendLog(1,"Opción 3","RadioGroup");
-//                        break;
-//                    case R.id.radio_opcion_4:
-//                        sendLog(1,"Opción 4","RadioGroup");
-//                        break;
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    sendLog(1, "Switch 1 Checked","Switch");
+//                }else{
+//                    sendLog(1, "Switch 2 No Checked","Switch");
 //                }
 //            }
 //        });
-        switch_1 = (Switch)findViewById(R.id.switch1);
-        switch_2 = (Switch)findViewById(R.id.switch2);
-
-        switch_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    sendLog(1, "Switch 1 Checked","Switch");
-                }else{
-                    sendLog(1, "Switch 2 No Checked","Switch");
-                }
-            }
-        });
-
-        switch_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    sendLog(1, "Switch 2 Checked","Switch");
-                }else{
-                    sendLog(1, "Switch 2 No Checked","Switch");
-                }
-            }
-        });
+//
+//        switch_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    sendLog(1, "Switch 2 Checked","Switch");
+//                }else{
+//                    sendLog(1, "Switch 2 No Checked","Switch");
+//                }
+//            }
+//        });
 
 //        ratingBar_1 = (RatingBar)findViewById(R.id.ratingBar);
 //        ratingBar_2 = (RatingBar)findViewById(R.id.ratingBar2);
