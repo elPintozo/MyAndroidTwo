@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
@@ -56,34 +57,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup radioGroup;
     private ListView listView;
     private ArrayList<Item> my_list_item;
+    private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_listview);
+        setContentView(R.layout.example_gridview);
 
-        listView = (ListView)findViewById(R.id.my_listview);
+        gridView = (GridView)findViewById(R.id.gridview);
         my_list_item = Item.getItems();
         final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);
-        listView.setAdapter(adapterItem);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setAdapter(adapterItem);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Item item = adapterItem.getItem(position);
-                sendLog(1,"Listview (item seleccionado): "+item.getId()+" / "+item.getName(),"Listview");
+                Item item_selected = adapterItem.getItem(position);
+                sendLog(1,"Gridview (item seleccionado): "+item_selected.getId()+" - "+item_selected.getName(),"Gridview");
             }
         });
-        //funcion que aplica cuando se mantiene presionado una opción por un perido largo, por lo general se suelen
-        //desplegar opciones para esa seleccion
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Item item = adapterItem.getItem(position);
-                Toast.makeText(getApplicationContext(), "Acciones disponibles para: "+item.getName(), Toast.LENGTH_LONG).show();
-                return false;//se mantendrá seleccionado hasta sacar el dedo de la opcion seleccionada
+                Item item_selected = adapterItem.getItem(position);
+                Toast.makeText(getApplicationContext(), "Acciones disponibles para: "+item_selected.getName(), Toast.LENGTH_LONG).show();
+                return false;
             }
         });
+
+//        listView = (ListView)findViewById(R.id.my_listview);
+//        my_list_item = Item.getItems();
+//        final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);
+//        listView.setAdapter(adapterItem);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Item item = adapterItem.getItem(position);
+//                sendLog(1,"Listview (item seleccionado): "+item.getId()+" / "+item.getName(),"Listview");
+//            }
+//        });
+//        //funcion que aplica cuando se mantiene presionado una opción por un perido largo, por lo general se suelen
+//        //desplegar opciones para esa seleccion
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                Item item = adapterItem.getItem(position);
+//                Toast.makeText(getApplicationContext(), "Acciones disponibles para: "+item.getName(), Toast.LENGTH_LONG).show();
+//                return false;//se mantendrá seleccionado hasta sacar el dedo de la opcion seleccionada
+//            }
+//        });
 
 //        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
 //        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
