@@ -40,7 +40,7 @@ public class AdapterItem extends ArrayAdapter {
     /**
      * Función que se utiliza para obtener un item en especifico de la lista
      */
-    public Object getItem(int position) {
+    public Item getItem(int position) {
         return items.get(position);
     }
 

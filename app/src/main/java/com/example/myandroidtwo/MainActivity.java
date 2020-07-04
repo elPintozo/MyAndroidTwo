@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -51,38 +54,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Switch switch_1;
     private Switch switch_2;
     private RadioGroup radioGroup;
+    private ListView listView;
+    private ArrayList<Item> my_list_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_radiogroup);
+        setContentView(R.layout.example_listview);
 
-        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        listView = (ListView)findViewById(R.id.my_listview);
+        my_list_item = Item.getItems();
+        final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);
+        listView.setAdapter(adapterItem);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                //Forma 1 de obtener el boton presionado
-                switch (checkedId){
-                    case R.id.radio_opcion_1:
-                        sendLog(1,"Forma 1: Opción 1","RadioGroup");
-                        break;
-                    case R.id.radio_opcion_2:
-                        sendLog(1,"Forma 1: Opción 2","RadioGroup");
-                        break;
-                    case R.id.radio_opcion_3:
-                        sendLog(1,"Forma 1: Opción 3","RadioGroup");
-                        break;
-                    case R.id.radio_opcion_4:
-                        sendLog(1,"Forma 1: O1pción 4","RadioGroup");
-                        break;
-                }
-
-                //forma 2 de obtener el radio seleccionado
-                RadioButton rb_seleccionado = (RadioButton)findViewById(checkedId);
-                sendLog(1, "Forma 2: "+(String) rb_seleccionado.getText(),"RadioGroup");
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Item item = adapterItem.getItem(position);
+                sendLog(1,"Listview (item seleccionado): "+item.getId()+" / "+item.getName(),"Listview");
             }
         });
+        //funcion que aplica cuando se mantiene presionado una opción por un perido largo, por lo general se suelen
+        //desplegar opciones para esa seleccion
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Item item = adapterItem.getItem(position);
+                Toast.makeText(getApplicationContext(), "Acciones disponibles para: "+item.getName(), Toast.LENGTH_LONG).show();
+                return false;//se mantendrá seleccionado hasta sacar el dedo de la opcion seleccionada
+            }
+        });
+
+//        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                //Forma 1 de obtener el boton presionado
+//                switch (checkedId){
+//                    case R.id.radio_opcion_1:
+//                        sendLog(1,"Forma 1: Opción 1","RadioGroup");
+//                        break;
+//                    case R.id.radio_opcion_2:
+//                        sendLog(1,"Forma 1: Opción 2","RadioGroup");
+//                        break;
+//                    case R.id.radio_opcion_3:
+//                        sendLog(1,"Forma 1: Opción 3","RadioGroup");
+//                        break;
+//                    case R.id.radio_opcion_4:
+//                        sendLog(1,"Forma 1: O1pción 4","RadioGroup");
+//                        break;
+//                }
+//
+//                //forma 2 de obtener el radio seleccionado
+//                RadioButton rb_seleccionado = (RadioButton)findViewById(checkedId);
+//                sendLog(1, "Forma 2: "+(String) rb_seleccionado.getText(),"RadioGroup");
+//            }
+//        });
 //        switch_1 = (Switch)findViewById(R.id.switch1);
 //        switch_2 = (Switch)findViewById(R.id.switch2);
 //
