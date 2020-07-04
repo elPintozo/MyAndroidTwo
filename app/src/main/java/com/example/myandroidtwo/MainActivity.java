@@ -63,29 +63,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_gridview);
+        setContentView(R.layout.example_scroll);
 
-        gridView = (GridView)findViewById(R.id.gridview);
-        my_list_item = Item.getItems();
-        final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);
-        gridView.setAdapter(adapterItem);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Item item_selected = adapterItem.getItem(position);
-                sendLog(1,"Gridview (item seleccionado): "+item_selected.getId()+" - "+item_selected.getName(),"Gridview");
-            }
-        });
-
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Item item_selected = adapterItem.getItem(position);
-                Toast.makeText(getApplicationContext(), "Acciones disponibles para: "+item_selected.getName(), Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
+//        gridView = (GridView)findViewById(R.id.gridview);
+//        my_list_item = Item.getItems();
+//        final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);
+//        gridView.setAdapter(adapterItem);
+//
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Item item_selected = adapterItem.getItem(position);
+//                sendLog(1,"Gridview (item seleccionado): "+item_selected.getId()+" - "+item_selected.getName(),"Gridview");
+//            }
+//        });
+//
+//        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                Item item_selected = adapterItem.getItem(position);
+//                Toast.makeText(getApplicationContext(), "Acciones disponibles para: "+item_selected.getName(), Toast.LENGTH_LONG).show();
+//                return false;
+//            }
+//        });
 
 //        listView = (ListView)findViewById(R.id.my_listview);
 //        my_list_item = Item.getItems();
