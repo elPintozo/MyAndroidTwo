@@ -30,6 +30,7 @@ import android.widget.QuickContactBadge;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -67,43 +68,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TabHost tabHost;
     private WebView webView;
     private ProgressBar progressBar_web;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_webview);
+        setContentView(R.layout.example_searchview);
 
-        webView =  (WebView)findViewById(R.id.webview);
-        progressBar_web = (ProgressBar) findViewById(R.id.progressBar_web);
+        searchView = (SearchView)findViewById(R.id.my_search_view);
+        CharSequence charSequence = searchView.getQuery();
+        CharSequence charSequence_hint = searchView.getQueryHint();
 
-        //Indico la página a cargar al inicio
-        //webView.loadUrl("https://www.google.cl");
+        sendLog(1,"getQuery: "+charSequence ,"SearchView");
+        sendLog(1,"getQueryHint: "+charSequence_hint ,"SearchView");
 
-        //*Si yo quiero cargar mi propio HTML* - debo comentar la función .loadUrl()
-        String my_HTML = "<html><body> <h1>Hola!</h1> <h2>Adiós!</h2> <h3>WebView</h3> </body></html>";
-        webView.loadData(my_HTML,  "text/html; charset=UTF-8",null);
-        webView.setBackgroundColor(Color.GREEN);
-        
-        //establezco algunas propiedades a partir de las que tiene el WebView
-        WebSettings webSettings = webView.getSettings();
-        //activo contenido en JS
-        webSettings.setJavaScriptEnabled(true);
-        //activo el uso de zoom en el texto
-        webSettings.setTextZoom(80);
-
-        webView.setWebChromeClient(new WebChromeClient(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                //se le indica al progressbar donde debe ir cargando
-                progressBar_web.setProgress(newProgress);
-                //si la página esta cargada se hace invisible el progressbar
-                if(newProgress == 100){
-                    progressBar_web.setVisibility(View.GONE);
-                }
-                super.onProgressChanged(view, newProgress);
+            public boolean onQueryTextSubmit(String query) {
+                sendLog(1,"onQueryTextSubmit: "+query ,"SearchView");
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                sendLog(1,"onQueryTextChange: "+newText ,"SearchView");
+                return false;
             }
         });
+//        webView =  (WebView)findViewById(R.id.webview);
+//        progressBar_web = (ProgressBar) findViewById(R.id.progressBar_web);
+//
+//        //Indico la página a cargar al inicio
+//        //webView.loadUrl("https://www.google.cl");
+//
+//        //*Si yo quiero cargar mi propio HTML* - debo comentar la función .loadUrl()
+//        String my_HTML = "<html><body> <h1>Hola!</h1> <h2>Adiós!</h2> <h3>WebView</h3> </body></html>";
+//        webView.loadData(my_HTML,  "text/html; charset=UTF-8",null);
+//        webView.setBackgroundColor(Color.GREEN);
+//
+//        //establezco algunas propiedades a partir de las que tiene el WebView
+//        WebSettings webSettings = webView.getSettings();
+//        //activo contenido en JS
+//        webSettings.setJavaScriptEnabled(true);
+//        //activo el uso de zoom en el texto
+//        webSettings.setTextZoom(80);
+//
+//        webView.setWebChromeClient(new WebChromeClient(){
+//            @Override
+//            public void onProgressChanged(WebView view, int newProgress) {
+//                //se le indica al progressbar donde debe ir cargando
+//                progressBar_web.setProgress(newProgress);
+//                //si la página esta cargada se hace invisible el progressbar
+//                if(newProgress == 100){
+//                    progressBar_web.setVisibility(View.GONE);
+//                }
+//                super.onProgressChanged(view, newProgress);
+//            }
+//        });
 
 //        tabHost = (TabHost)findViewById(R.id.tabhost);
 //        tabHost.setup();
