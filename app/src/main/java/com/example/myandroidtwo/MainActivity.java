@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,13 +60,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView listView;
     private ArrayList<Item> my_list_item;
     private GridView gridView;
+    private TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_scroll);
+        setContentView(R.layout.example_tabhost);
 
+        tabHost = (TabHost)findViewById(R.id.tabhost);
+        tabHost.setup();
+
+        //se crean las instancias del TabHost
+        newTab("tab1", R.id.tab1, "Tab N° 1", getIcon(R.drawable.icono_email));
+        newTab("tab2", R.id.tab2, "Tab N° 2", getIcon(R.drawable.icono_email));
+        newTab("tab3", R.id.tab3, "",getIcon(R.drawable.icono_email));
+
+        //marco el tab por defecto
+        tabHost.setCurrentTab(1);
+
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                Toast.makeText(getApplicationContext(), "Identificador: " + tabId + " - Id: " + tabHost.getCurrentTab(), Toast.LENGTH_LONG).show();
+                sendLog(1,"Identificador: "+tabId + " - Id: " + tabHost.getCurrentTab(),"TabHost");
+            }
+        });
 //        gridView = (GridView)findViewById(R.id.gridview);
 //        my_list_item = Item.getItems();
 //        final AdapterItem adapterItem = new AdapterItem(this, R.layout.item_adapter, my_list_item);
@@ -325,6 +346,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            //se notifica que no hay permiso para hacer uso de algun componente
 //            Toast.makeText(getApplicationContext(), "Permiso denegado 1.", Toast.LENGTH_LONG).show();
 //        }
+    }
+
+    /**
+     * Función que me ayuda a generar los iconos que se desplegarán en los Tab
+     * @param idDrawable
+     * @return
+     */
+    private Drawable getIcon(int idDrawable){
+        return ContextCompat.getDrawable(getApplicationContext(), idDrawable);
+    }
+    /**
+     * Función que me ayuda a crear los tab/pestañas del TabHost
+     * @param tab (String): identificador de la pestaña
+     * @param idContent (int): id del contendor de los elementos que están dentro del tab
+     * @param title (String): titulo de la pestaña
+     */
+    private void newTab(String tab, int idContent, String title, Drawable drawable){
+        TabHost.TabSpec spec = tabHost.newTabSpec(tab);
+        spec.setContent(idContent);
+        spec.setIndicator(title, drawable);
+
+        //se agrega el tab creado al TabHost
+        tabHost.addTab(spec);
     }
 
     @Override
