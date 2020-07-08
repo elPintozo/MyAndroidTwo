@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -39,7 +40,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -71,30 +75,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar progressBar_web;
     private SearchView searchView;
     private TimePicker timePicker;
+    private DatePicker datePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_timepicker);
+        setContentView(R.layout.example_datepicker);
+        datePicker = (DatePicker) findViewById(R.id.datepicker);
 
-        timePicker = (TimePicker) findViewById(R.id.timepicker);
+        //establesco una fecha máxima
+        //Indico el formato
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        //Tomando el formato de fecha, procedo a indicar la fecha
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse("2020/10/01");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //asigno la fecha ya creada
+        datePicker.setMaxDate(date.getTime());
 
-        //Asignar tipo de visualizacion de 24 horas
-        timePicker.setIs24HourView(true);
+        //Los meses empienzan del 0 al 11
+        sendLog(1,"Fecha: "+datePicker.getDayOfMonth()+"/"+(datePicker.getMonth()+1)+"/"+datePicker.getYear() ,"DatePicker");
 
-        //cambio la hora:minuto por defecto a desplegar
-        timePicker.setHour(13);
-        timePicker.setMinute(0);
-
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+        datePicker.init(2020, 6, 7, new DatePicker.OnDateChangedListener() {
             @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                sendLog(1,"is24Hour: "+view.is24HourView() ,"TimePicker");
-                sendLog(1,"HH:MM "+hourOfDay+":"+minute ,"TimePicker");
-
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                sendLog(1,"Fecha seleccionada: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year,"DatePicker");
             }
         });
+//        timePicker = (TimePicker) findViewById(R.id.timepicker);
+//
+//        //Asignar tipo de visualizacion de 24 horas
+//        timePicker.setIs24HourView(true);
+//
+//        //cambio la hora:minuto por defecto a desplegar
+//        timePicker.setHour(13);
+//        timePicker.setMinute(0);
+//
+//        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+//            @Override
+//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+//                sendLog(1,"is24Hour: "+view.is24HourView() ,"TimePicker");
+//                sendLog(1,"HH:MM "+hourOfDay+":"+minute ,"TimePicker");
+//
+//            }
+//        });
 
 //        searchView = (SearchView)findViewById(R.id.my_search_view);
 //        CharSequence charSequence = searchView.getQuery();
