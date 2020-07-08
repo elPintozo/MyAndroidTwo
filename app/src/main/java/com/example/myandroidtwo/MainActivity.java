@@ -36,6 +36,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -69,33 +70,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private WebView webView;
     private ProgressBar progressBar_web;
     private SearchView searchView;
+    private TimePicker timePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_searchview);
+        setContentView(R.layout.example_timepicker);
 
-        searchView = (SearchView)findViewById(R.id.my_search_view);
-        CharSequence charSequence = searchView.getQuery();
-        CharSequence charSequence_hint = searchView.getQueryHint();
+        timePicker = (TimePicker) findViewById(R.id.timepicker);
 
-        sendLog(1,"getQuery: "+charSequence ,"SearchView");
-        sendLog(1,"getQueryHint: "+charSequence_hint ,"SearchView");
+        //Asignar tipo de visualizacion de 24 horas
+        timePicker.setIs24HourView(true);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //cambio la hora:minuto por defecto a desplegar
+        timePicker.setHour(13);
+        timePicker.setMinute(0);
+
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                sendLog(1,"onQueryTextSubmit: "+query ,"SearchView");
-                return false;
-            }
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                sendLog(1,"is24Hour: "+view.is24HourView() ,"TimePicker");
+                sendLog(1,"HH:MM "+hourOfDay+":"+minute ,"TimePicker");
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                sendLog(1,"onQueryTextChange: "+newText ,"SearchView");
-                return false;
             }
         });
+
+//        searchView = (SearchView)findViewById(R.id.my_search_view);
+//        CharSequence charSequence = searchView.getQuery();
+//        CharSequence charSequence_hint = searchView.getQueryHint();
+//
+//        sendLog(1,"getQuery: "+charSequence ,"SearchView");
+//        sendLog(1,"getQueryHint: "+charSequence_hint ,"SearchView");
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                sendLog(1,"onQueryTextSubmit: "+query ,"SearchView");
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                sendLog(1,"onQueryTextChange: "+newText ,"SearchView");
+//                return false;
+//            }
+//        });
 //        webView =  (WebView)findViewById(R.id.webview);
 //        progressBar_web = (ProgressBar) findViewById(R.id.progressBar_web);
 //
