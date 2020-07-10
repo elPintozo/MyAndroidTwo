@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -22,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.GridView;
@@ -76,36 +78,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SearchView searchView;
     private TimePicker timePicker;
     private DatePicker datePicker;
+    private Chronometer chronometer;
+    private long timePause;
+    private Boolean isPlay;
+    private Boolean isPausa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_datepicker);
-        datePicker = (DatePicker) findViewById(R.id.datepicker);
+        setContentView(R.layout.example_chronometer);
 
-        //establesco una fecha máxima
-        //Indico el formato
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        //Tomando el formato de fecha, procedo a indicar la fecha
-        Date date = null;
-        try {
-            date = simpleDateFormat.parse("2020/10/01");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //asigno la fecha ya creada
-        datePicker.setMaxDate(date.getTime());
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        findViewById(R.id.btn_play).setOnClickListener(this);
+        findViewById(R.id.btn_stop).setOnClickListener(this);
+        findViewById(R.id.btn_pause).setOnClickListener(this);
+        timePause=0;
+        isPlay = false;
+        isPausa = false;
 
-        //Los meses empienzan del 0 al 11
-        sendLog(1,"Fecha: "+datePicker.getDayOfMonth()+"/"+(datePicker.getMonth()+1)+"/"+datePicker.getYear() ,"DatePicker");
-
-        datePicker.init(2020, 6, 7, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                sendLog(1,"Fecha seleccionada: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year,"DatePicker");
-            }
-        });
+//        datePicker = (DatePicker) findViewById(R.id.datepicker);
+//
+//        //establesco una fecha máxima
+//        //Indico el formato
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        //Tomando el formato de fecha, procedo a indicar la fecha
+//        Date date = null;
+//        try {
+//            date = simpleDateFormat.parse("2020/10/01");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        //asigno la fecha ya creada
+//        datePicker.setMaxDate(date.getTime());
+//
+//        //Los meses empienzan del 0 al 11
+//        sendLog(1,"Fecha: "+datePicker.getDayOfMonth()+"/"+(datePicker.getMonth()+1)+"/"+datePicker.getYear() ,"DatePicker");
+//
+//        datePicker.init(2020, 6, 7, new DatePicker.OnDateChangedListener() {
+//            @Override
+//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                sendLog(1,"Fecha seleccionada: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year,"DatePicker");
+//            }
+//        });
 //        timePicker = (TimePicker) findViewById(R.id.timepicker);
 //
 //        //Asignar tipo de visualizacion de 24 horas
@@ -643,6 +658,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     btnAdd.setText("Felicidades "+my_progress+"%");
                     my_progressBar.setProgress(0);
+                }
+                break;
+
+            case R.id.btn_play:
+                if(!isPlay) {
+                    chronometer.setBase(SystemClock.elapsedRealtime() - timePause);
+                    sendLog(1, "Play-timePause:" + timePause, "Chronometer");
+                    sendLog(1, "SystemClock:" + SystemClock.elapsedRealtime(), "Chronometer");
+                    chronometer.start();
+                    isPlay=true;
+                    isPausa=false;
+                }
+                break;
+            case R.id.btn_pause:
+                if(!isPausa) {
+                    timePause = SystemClock.elapsedRealtime() - chronometer.getBase();
+                    sendLog(1, "SystemClock.elapsedRealtime()-chronometer.getBase():" + SystemClock.elapsedRealtime() + " - " + chronometer.getBase(), "Chronometer");
+                    sendLog(1, "Pause-timePause:" + timePause, "Chronometer");
+                    chronometer.stop();
+                    isPausa=true;
+                    isPlay=false;
+                }
+                break;
+            case R.id.btn_stop:
+                if(isPausa) {
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    chronometer.stop();
+                    timePause=0;
                 }
                 break;
         }
