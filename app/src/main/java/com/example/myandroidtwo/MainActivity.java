@@ -31,6 +31,7 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -89,58 +90,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Boolean isPlay;
     private Boolean isPausa;
     private VideoView videoView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_videoview);
-        videoView = (VideoView)findViewById(R.id.videoview);
+        setContentView(R.layout.example_image_view);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
-        //se cargas los botones multimedia
-        MediaController mediaController = new MediaController(this);
-        videoView.setMediaController(mediaController);
-
-        //cargar un video de origen local
-        String path = "android.resource://"+getPackageName()+"/"+R.raw.smallvideo;
-        videoView.setVideoURI(Uri.parse(path));
-
-        //se indica en que milisegundo debe comenzar a reproducirse el video
-        videoView.seekTo(1500);
-        videoView.pause();
-
-        //se capturan los clic sobre el video
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(videoView.isPlaying()){
-                    videoView.pause();
-                    //obtengo el tiempo en el cual fue pausado
-                    sendLog(1,"Pausa en el milisegundo: "+videoView.getCurrentPosition(),"VideoView");
-                }else{
-                    videoView.start();
-                }
-                return false;
-            }
-        });
-
-        //obtengo las propiedades del panel multimedia de reproducción
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                sendLog(1,"Duración: "+mp.getDuration(),"VideoView");
-            }
-        });
-
-        //obtengo la instancia cuando el video se da por finalizado, y poder realizar alguna acción
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                sendLog(1,"Vídeo finalizado","VideoView");
-                //reinicio el vídeo
-                mp.start();
-            }
-        });
+//        videoView = (VideoView)findViewById(R.id.videoview);
+//
+//        //se cargas los botones multimedia
+//        MediaController mediaController = new MediaController(this);
+//        videoView.setMediaController(mediaController);
+//
+//        //cargar un video de origen local
+//        String path = "android.resource://"+getPackageName()+"/"+R.raw.smallvideo;
+//        videoView.setVideoURI(Uri.parse(path));
+//
+//        //se indica en que milisegundo debe comenzar a reproducirse el video
+//        videoView.seekTo(1500);
+//        videoView.pause();
+//
+//        //se capturan los clic sobre el video
+//        videoView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(videoView.isPlaying()){
+//                    videoView.pause();
+//                    //obtengo el tiempo en el cual fue pausado
+//                    sendLog(1,"Pausa en el milisegundo: "+videoView.getCurrentPosition(),"VideoView");
+//                }else{
+//                    videoView.start();
+//                }
+//                return false;
+//            }
+//        });
+//
+//        //obtengo las propiedades del panel multimedia de reproducción
+//        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                sendLog(1,"Duración: "+mp.getDuration(),"VideoView");
+//            }
+//        });
+//
+//        //obtengo la instancia cuando el video se da por finalizado, y poder realizar alguna acción
+//        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                sendLog(1,"Vídeo finalizado","VideoView");
+//                //reinicio el vídeo
+//                mp.start();
+//            }
+//        });
 
         //cargar un vídeo de forma remota
 //        videoView.setVideoPath("https://demonuts.com/Demonuts/smallvideo.mp4");
