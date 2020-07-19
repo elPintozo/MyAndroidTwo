@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,6 +38,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
+import android.widget.ViewAnimator;
 
 import com.bumptech.glide.Glide;
 
@@ -77,21 +81,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Boolean isPausa;
     private VideoView videoView;
     private ImageView imageView;
+    private ViewAnimator viewAnimator;
+    private EditText txt_message;
+    private EditText txt_name;
+    private TextView txtResult;
+    private TextView txtSend;
+    private Button btn_next;
+    private Button btn_previus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_glide);
+        setContentView(R.layout.example_view_animator);
 
-        imageView = (ImageView) findViewById(R.id.my_imageview);
-        Glide.with(this).
-                load("https://laverdadnoticias.com/__export/1595101072618/sites/laverdad/img/2020/07/18/batman_comic_datos_superheroe.jpg_478486366.jpg").
-                placeholder(R.drawable.default_image).//en caso de que halla una demora en la red
-                error(R.drawable.default_image).//en caso de que halla error al cargar una imagen
-                override(150,150).// se limita el tamaño de carga de la imagen, haciendola más rápida
-                into(imageView);
+        viewAnimator = (ViewAnimator) findViewById(R.id.my_view_animator);
+        txt_name = (EditText) findViewById(R.id.et_1_ll_one);
+        txt_message = (EditText) findViewById(R.id.et_2_ll_one);
+        txtResult = (TextView) findViewById(R.id.tv_1_ll_two);
+        txtSend = (TextView) findViewById(R.id.tv_1_ll_three);
+        btn_next = (Button) findViewById(R.id.btnNext_view_animator);
+        btn_previus = (Button) findViewById(R.id.btnPrevious_view_animator);
 
+        //se indica las animaciones que tendrá cada cambio de vista
+        viewAnimator.setInAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left));
+        viewAnimator.setOutAnimation(AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right));
+
+        //se remueve un componente de una de las transiciones, considerando la 1° transicion en 0, luego 1 ....
+        viewAnimator.removeViewAt(1);
+
+        //se crea un componennte nuevo que será agregado dentro de una de las transiciones
+        TextView textView = new TextView(this);
+        textView.setText("Bienvenido");
+
+        //se agrega el componente y el numero de la vista en la cual mostrarse
+        viewAnimator.addView(textView, 1);
+
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //se valida si es la última view para que vuelva a mostrar la número 0 otra vez
+                if(viewAnimator.getCurrentView().getId()!=R.id.llThree) {
+
+                    // obtengo los parametros ingresados por el usuario
+                    String input_name = txt_name.getText().toString();
+                    String input_message = txt_message.getText().toString();
+
+                    //si los campos están vacios se le indica al usuario que vuelva introducirlos
+                    if (!input_name.isEmpty() && !input_message.isEmpty()) {
+                        txtResult.setText(input_name + ", tu mensaje es el siguiente: " + input_message);
+                        txtSend.setText("Se enviará el siguiente mensaje: " + input_message);
+                        viewAnimator.showNext();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Debes llenar los campos de Nombre y Mensaje", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+        btn_previus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(viewAnimator.getCurrentView().getId()!=R.id.llOne) {
+                    viewAnimator.showPrevious();
+                }
+            }
+        });
+
+//        imageView = (ImageView) findViewById(R.id.my_imageview);
+//        Glide.with(this).
+//                load("https://laverdadnoticias.com/__export/1595101072618/sites/laverdad/img/2020/07/18/batman_comic_datos_superheroe.jpg_478486366.jpg").
+//                placeholder(R.drawable.default_image).//en caso de que halla una demora en la red
+//                error(R.drawable.default_image).//en caso de que halla error al cargar una imagen
+//                override(150,150).// se limita el tamaño de carga de la imagen, haciendola más rápida
+//                into(imageView);
+//
 //        imageView = (ImageView) findViewById(R.id.imageView);
 //
 //        videoView = (VideoView)findViewById(R.id.videoview);
