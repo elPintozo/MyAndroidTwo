@@ -7,33 +7,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
 import android.widget.RadioButton;
@@ -49,10 +36,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -96,9 +82,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         //se infla(podemos usar sus componentes declarado en xml) nuestra vista
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.example_image_view);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        setContentView(R.layout.example_glide);
 
+        imageView = (ImageView) findViewById(R.id.my_imageview);
+        Glide.with(this).
+                load("https://laverdadnoticias.com/__export/1595101072618/sites/laverdad/img/2020/07/18/batman_comic_datos_superheroe.jpg_478486366.jpg").
+                placeholder(R.drawable.default_image).//en caso de que halla una demora en la red
+                error(R.drawable.default_image).//en caso de que halla error al cargar una imagen
+                override(150,150).// se limita el tamaño de carga de la imagen, haciendola más rápida
+                into(imageView);
+
+//        imageView = (ImageView) findViewById(R.id.imageView);
+//
 //        videoView = (VideoView)findViewById(R.id.videoview);
 //
 //        //se cargas los botones multimedia
